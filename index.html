@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title> 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>   
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>   
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>   
 </body>
     <div class="dashboard-container">
@@ -16,11 +16,11 @@
                 <button id="search-btn">Search</button>
             </div>
             <div class="action-buttons">
-                <button id="location-btn">
+                <button id="geo-btn" title="Use current location">
                     <ion-icon name="locate-outline"></ion-icon>
                 </button>
                 <button id="theme-toggle" title="toggle theme">
-                    <ion-icon name="moon-outline"></ion-icon>
+                    <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
                 </button>
             </div>
         </header>
