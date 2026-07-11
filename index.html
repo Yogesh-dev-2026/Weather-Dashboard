@@ -26,13 +26,15 @@
         </header>
 
         <!--shows while fetching weather data-->
-        <div id="loading" class="loading">
-            <p>Loading weather data...</p>
+        <div id="loading-state" class="loader hidden">
+            <div class="spinner"></div>
+             <p>Loading weather data...</p>
         </div>
 
         <!--shows when something goes wrong-->
         <div id="error" class="error">
-            <p>Error fetching weather data. Please try again.</p>
+            <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+            <p id="error-message">Something went wrong. Please try again.</p>
         </div>
     </div>
 </body>
