@@ -1,65 +1,97 @@
-<!DOCTYPE html> 
-<html lang="en" data-theme="dark"></html>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Dashboard</title> 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>   
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</head>   
-</body>
+</head>
+<body>
     <div class="dashboard-container">
-        <header class="control-header">
+        <header class="controls-header">
             <div class="search-wrapper">
                 <ion-icon name="search-outline" class="search-icon"></ion-icon>
                 <input type="text" id="city-search" placeholder="Search for a city..." autocomplete="off">
                 <button id="search-btn">Search</button>
             </div>
             <div class="action-buttons">
-                <button id="geo-btn" title="Use current location">
+                <button id="geo-btn" title="Use my location">
                     <ion-icon name="locate-outline"></ion-icon>
                 </button>
-                <button id="theme-toggle" title="toggle theme">
+                <button id="theme-toggle" title="Toggle theme">
                     <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
                 </button>
             </div>
         </header>
 
-        <!--shows while fetching weather data-->
         <div id="loading-state" class="loader hidden">
             <div class="spinner"></div>
-             <p>Loading weather data...</p>
+            <p>Getting weather data...</p>
         </div>
 
-        <!--shows when something goes wrong-->
-        <div id="error" class="error">
-            <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
-            <p id="error-message">Something went wrong. Please try again.</p>
+        <div id="error-state" class="error-card hidden">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <p id="error-message">Something went wrong. Try again.</p>
         </div>
+
         <main id="weather-content" class="main-layout hidden">
-
-            <!-- current weather - styled nicely -->
+            <!-- current weather hero card -->
             <section class="hero-weather-card">
                 <div class="hero-meta">
                     <h1 id="city-name">City Name</h1>
                     <p id="current-date">Tuesday, June 16</p>
                 </div>
-        <div class="hero-display">
-            <img id="weather-icon" src="" alt="Weather Icon">
-            <div class="temp-box">
-                <span id="temperature">--</span>
-                <span class="degree-symbol">°C</span>
-            </div>
-            <p id="description">Weather Description</p>
-        </div>
-    </section>
+                <div class="hero-display">
+                    <img id="weather-icon" src="" alt="Weather Icon">
+                    <div class="temp-box">
+                        <span id="temperature">--</span>
+                        <span class="degree-symbol">°C</span>
+                    </div>
+                    <p id="description">Weather Description</p>
+                </div>
+            </section>
 
-    <!-- 5 day forecast - your addition -->
-        <section class="forecast">
-            <h2>5-Day Forecast</h2>
-            <div id="forecast-cards" class="forecast-cards"></div>
-        </section>
-      </main>        
+            <!-- metrics grid -->
+            <section class="metrics-grid">
+                <div class="metric-item-card">
+                    <ion-icon name="thermometer-outline" class="metric-accent"></ion-icon>
+                    <div>
+                        <p class="metric-label">Feels Like</p>
+                        <h4 id="feels-like-val">--</h4>
+                    </div>
+                </div>
+                <div class="metric-item-card">
+                    <ion-icon name="water-outline" class="metric-accent"></ion-icon>
+                    <div>
+                        <p class="metric-label">Humidity</p>
+                        <h4 id="humidity-val">--</h4>
+                    </div>
+                </div>
+                <div class="metric-item-card">
+                    <ion-icon name="leaf-outline" class="metric-accent"></ion-icon>
+                    <div>
+                        <p class="metric-label">Wind Speed</p>
+                        <h4 id="wind-val">--</h4>
+                    </div>
+                </div>
+                <div class="metric-item-card">
+                    <ion-icon name="speedometer-outline" class="metric-accent"></ion-icon>
+                    <div>
+                        <p class="metric-label">Pressure</p>
+                        <h4 id="pressure-val">--</h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5 day forecast -->
+            <section class="forecast-section">
+                <h2>5-Day Forecast</h2>
+                <div id="forecast-cards" class="forecast-cards"></div>
+            </section>
+        </main>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
