@@ -36,27 +36,30 @@
             <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
             <p id="error-message">Something went wrong. Please try again.</p>
         </div>
-        
-        <main id ="weather-dashboard" class="dashboard hidden">
-            <section class="current-weather">
-                <div class="location">
-                    <h2 id="city-name">City Name</h2>
-                    <p id="country-name">Country</p>
-                </div>
-                <div class="weather-info">
-                    <img id="weather-icon" src="" alt="Weather Icon">
-                    <div class="temperature">
-                        <h1 id="temperature">0°C</h1>
-                        <p id="weather-description">Description</p>
-                    </div>
-                </div>
-            </section>
+        <main id="weather-content" class="main-layout hidden">
 
-            <section class="forecast">
-                <h3>5-Day Forecast</h3>
-                <div id="forecast-cards" class="forecast-cards"></div>
-            </section>
-      <main>
+            <!-- current weather - styled nicely -->
+            <section class="hero-weather-card">
+                <div class="hero-meta">
+                    <h1 id="city-name">City Name</h1>
+                    <p id="current-date">Tuesday, June 16</p>
+                </div>
+        <div class="hero-display">
+            <img id="weather-icon" src="" alt="Weather Icon">
+            <div class="temp-box">
+                <span id="temperature">--</span>
+                <span class="degree-symbol">°C</span>
+            </div>
+            <p id="description">Weather Description</p>
+        </div>
+    </section>
+
+    <!-- 5 day forecast - your addition -->
+        <section class="forecast">
+            <h2>5-Day Forecast</h2>
+            <div id="forecast-cards" class="forecast-cards"></div>
+        </section>
+      </main>        
     </div>
 </body>
 </html>
