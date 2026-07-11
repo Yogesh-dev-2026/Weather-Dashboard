@@ -36,6 +36,27 @@
             <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
             <p id="error-message">Something went wrong. Please try again.</p>
         </div>
+        
+        <main id ="weather-dashboard" class="dashboard hidden">
+            <section class="current-weather">
+                <div class="location">
+                    <h2 id="city-name">City Name</h2>
+                    <p id="country-name">Country</p>
+                </div>
+                <div class="weather-info">
+                    <img id="weather-icon" src="" alt="Weather Icon">
+                    <div class="temperature">
+                        <h1 id="temperature">0°C</h1>
+                        <p id="weather-description">Description</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="forecast">
+                <h3>5-Day Forecast</h3>
+                <div id="forecast-cards" class="forecast-cards"></div>
+            </section>
+      <main>
     </div>
 </body>
 </html>
