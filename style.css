@@ -13,9 +13,9 @@
 }
 
 [date-theme="light"] {
-    --bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    --card: rgba( 255, 255, 255, 0.7);
-    --border: rgba( 0, 0, 0, 0.08);
+    --bg: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
+    --card: rgba( 255, 255, 255, 0.75);
+    --border: rgba( 0, 0, 0, 0.06);
     --text: #0f172a;
     --text-muted: #475569;      
     --accent: #4f46e5;
