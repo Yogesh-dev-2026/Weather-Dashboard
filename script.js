@@ -48,3 +48,37 @@ function updateThemeIcon(theme) {
 
 // start the app
 initTheme();
+
+// fetch weather data from OpenWeather API
+async function getWeather(query) {
+    showLoading();
+
+    try {
+        const res = await fetch(`${BASE_URL}?${query}&units=metric&appid=${API_KEY}`);
+
+        if (!res.ok) {
+            if (res.status === 404) throw new Error("City not found. Try a different name.");
+            if (res.status === 401) throw new Error("Invalid API key. Check your key and try again.");
+            throw new Error("Something went wrong. Please try again.");
+        }
+
+        const data = await res.json();
+        showWeather(data);
+
+    } catch (err) {
+        showError(err.message);
+    }
+}
+
+function showLoading() {
+    loadingState.classList.remove('hidden');
+    errorState.classList.add('hidden');
+    weatherContent.classList.add('hidden');
+}
+
+function showError(msg) {
+    loadingState.classList.add('hidden');
+    weatherContent.classList.add('hidden');
+    errorState.classList.remove('hidden');
+    errorMessage.textContent = msg;
+}
