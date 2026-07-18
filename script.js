@@ -1,5 +1,6 @@
 const API_KEY = '28ce7311124475dcf846cc9f88d52d64';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const FORECAST_URL = "https://api.openweather.org/data/2.5/forecast";
 
 // grab all the elements I need
 const themeToggleBtn = document.getElementById('theme-toggle');
@@ -23,7 +24,8 @@ const feelsLike = document.getElementById('feels-like-val');
 const humidity = document.getElementById('humidity-val');
 const wind = document.getElementById('wind-val');
 const pressure = document.getElementById('pressure-val');
-
+const forecastCards = document.getElementById("forecast-cards");
+ 
 // theme setup - check if user had a preference saved before
 function initTheme() {
     const saved = localStorage.getItem('weather-theme');
@@ -82,6 +84,7 @@ function showError(msg) {
     errorState.classList.remove('hidden');
     errorMessage.textContent = msg;
 }
+
 
 function showWeather(data) {
     loadingState.classList.add('hidden');
