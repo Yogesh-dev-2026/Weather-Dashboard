@@ -31,24 +31,27 @@ function initTheme() {
     const saved = localStorage.getItem('weather-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const theme = saved || (prefersDark ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
+    applyTheme(theme);
 }
 
 function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
+    applyTheme(next)
     localStorage.setItem('weather-theme', next);
-    updateThemeIcon(next);
 }
 
-function updateThemeIcon(theme) {
-    // sun icon for dark mode, moon for light mode
-    themeIcon.setAttribute('name', theme === 'dark' ? 'sunny-outline' : 'moon-outline');
+function applytheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        // animate icon when switching
+        themeIcon.style.transform = "rotate(360deg)";
+        themeIcon.style.transition = "transform 0.4 s ease";
+        setTimeout(() =>{
+          themeIcon.setAttribute('name', theme === 'dark' ? 'sunny-outline' : 'moon-outline');
+          themeIcon.style.transform = "rotate(0deg)";  
+        }, 200);
 }
 
-// start the app
 initTheme();
 
 // fetch weather data from OpenWeather API
