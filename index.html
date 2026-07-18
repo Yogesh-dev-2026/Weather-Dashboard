@@ -13,7 +13,9 @@
         <header class="controls-header">
             <div class="search-wrapper">
                 <ion-icon name="search-outline" class="search-icon"></ion-icon>
-                <input type="text" id="city-search" placeholder="Search for a city..." autocomplete="off">
+                <input type="text" id="city-search"
+                    placeholder="Search for a city..."
+                    autocomplete="off">
                 <button id="search-btn">Search</button>
             </div>
             <div class="action-buttons">
@@ -37,14 +39,13 @@
         </div>
 
         <main id="weather-content" class="main-layout hidden">
-            <!-- current weather hero card -->
             <section class="hero-weather-card">
                 <div class="hero-meta">
                     <h1 id="city-name">City Name</h1>
                     <p id="current-date">Tuesday, June 16</p>
                 </div>
                 <div class="hero-display">
-                    <img id="weather-icon" src="" alt="Weather Icon">
+                    <ion-icon id="weather-icon" name="partly-sunny-outline"></ion-icon>
                     <div class="temp-box">
                         <span id="temperature">--</span>
                         <span class="degree-symbol">°C</span>
@@ -86,18 +87,18 @@
             </section>
 
             <!-- 5 day forecast -->
-            <section class="forecast-section">
+            <section class="forecast">
                 <h2>5-Day Forecast</h2>
                 <div id="forecast-cards" class="forecast-cards"></div>
             </section>
         </main>
+
+        <!-- footer -->
+        <footer style="text-align:center; margin-top:20px; color:var(--text-muted); font-size:0.85rem;">
+            Made by Yogesh Madhukumar 🚀 · © 2026 Weather Dashboard
+        </footer>
     </div>
     <script src="script.js"></script>
-
-    <!-- footer -->
-    <footer>
-        <p style="text-align:center; margin-top:20px; color:var(--text-muted); font-size:0.85rem;">. Made by  Made by Yogesh Madhukumar 🚀
-        </p>
-    </footer>
 </body>
 </html>
+
