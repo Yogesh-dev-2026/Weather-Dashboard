@@ -82,3 +82,27 @@ function showError(msg) {
     errorState.classList.remove('hidden');
     errorMessage.textContent = msg;
 }
+
+function showWeather(data) {
+    loadingState.classList.add('hidden');
+    errorState.classList.add('hidden');
+    weatherContent.classList.remove('hidden');
+
+    locationName.textContent = `${data.name}, ${data.sys.country}`;
+    currentDate.textContent = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', month: 'short', day: 'numeric'
+    });
+
+    mainTemp.textContent = Math.round(data.main.temp);
+    weatherDesc.textContent = data.weather[0].description;
+
+    // fixed icon URL - was missing $ and had wrong base URL before
+    const iconCode = data.weather[0].icon;
+    weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+
+    feelsLike.textContent = `${Math.round(data.main.feels_like)}°C`;
+    humidity.textContent = `${data.main.humidity}%`;
+    // API gives wind in m/s - converting to km/h
+    wind.textContent = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
+    pressure.textContent = `${data.main.pressure} hPa`;
+}
