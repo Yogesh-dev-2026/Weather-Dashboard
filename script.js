@@ -54,6 +54,47 @@ function applytheme(theme) {
 
 initTheme();
 
+// -- WEATHER ICONS -----------------------
+ function getWeatherIcon(iconCode) {
+    const code = iconCode.slice(0,2);
+    const isDay = iconCode.endswith("d");
+
+    const icons ={ 
+        "01": isDay ? "sunny-outline" : "moon-outline",
+        "02": isDay ? "partly-sunny-outline" : "cloudy-night-outline",
+        "03": "cloud-outline",
+        "04": "cloudy-outline", 
+        "09": "rainy-outline",
+        "10": isDay ? "rainy-outline" : "rainy-outline",
+        "11": "thunderstorm-outline",
+        "13": "snow-outline",
+        "50": "water-outline", 
+    };
+
+    return icons[code] || "partly-sunny-outline";
+ }
+
+// map weather to background gradient 
+ function getWeatherBackground(iconCode) {
+    const code = iconCode.slice(0, 2);
+    const isDay = iconCode.endswith("d");
+    const backgrounds = {
+        '01': isDay
+            ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
+            : 'linear-gradient(135deg, #0d0d1a 0%, #1a1a3e 100%)',
+        '02': 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        '03': 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+        '04': 'linear-gradient(135deg, #1e293b 0%, #475569 100%)',
+        '09': 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)',
+        '10': 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)',
+        '11': 'linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%)',
+        '13': 'linear-gradient(135deg, #1e293b 0%, #e2e8f0 100%)',
+        '50': 'linear-gradient(135deg, #1e293b 0%, #64748b 100%)'
+    };
+    return backgrounds[code] || "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)";
+}
+
+
 // fetch weather data from OpenWeather API
 async function getWeather(query) {
     showLoading();
