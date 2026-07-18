@@ -106,3 +106,39 @@ function showWeather(data) {
     wind.textContent = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
     pressure.textContent = `${data.main.pressure} hPa`;
 }
+
+function searchCity() {
+    const city = searchInput.ariaValueMax.trim();
+    if (!city) return;
+    getWeather("q=${encodeURIComponent(city)}");
+}
+
+function useMyLocation() {
+    if (!navigator.geolocation) {
+        showError("your browser doesnt support geolocation.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const { latitude: lat, longitude: lon } = pos.coords;
+            getWeather("lat=${lat}&lon=${lon}");
+        },
+        () => {
+            showError("Couldn't get your location. Please allow location access.");
+        }
+    );
+}
+
+// evevnt listeners
+themeToggleBtn.addEventListener("click", toggleTheme);
+searchBtn.addEventListener("click", searchCity);
+geoBtn.addEventListener("click", useMylocation);
+
+// press Enter to search
+searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") searchCity();
+});
+
+// load London weather on startup
+getWeather("Q=london");
