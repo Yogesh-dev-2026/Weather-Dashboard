@@ -101,7 +101,6 @@ async function getWeather(query) {
 
     try {
         const res = await fetch(`${BASE_URL}?${query}&units=metric&appid=${API_KEY}`);
-
         if (!res.ok) {
             if (res.status === 404) throw new Error("City not found. Try a different name.");
             if (res.status === 401) throw new Error("Invalid API key. Check your key and try again.");
@@ -110,11 +109,51 @@ async function getWeather(query) {
 
         const data = await res.json();
         showWeather(data);
-
+        const forecastQuery = query.startsWith("lat")
+            ? query
+            :"q=${encodeURIComponent(data.name)}";
+        getForecast(forecastQuery);
     } catch (err) {
         showError(err.message);
     }
 }
+
+async function getForecast(query) {
+    try {
+        const res = await fetch(`${FORECAST_URL}?${query}&units=metric&appid=${API_KEY}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        show forecastCards(data);
+        } catch (err) {
+            //forecast failing silently - not critical
+            console.log("Forecart load failed:". err.message);
+        }
+}
+
+functiom searchCity() {
+    const city = searchInput.value.trim();
+    if (!city) return;
+    getWeather("q=${encodeURIComponent(city)}");
+}
+
+function useMyLocation() {
+    if (!navigator.geolocation) {
+        showError("Your browser doesn't support geolocation.");
+        return;
+    }
+    geoBtn.style.transform = "scale(0.9)";
+    setTimeout(() => geoBtn.style.Transform = "scale(1)", 200);
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const {latitude: lat, longitiude: lon } = pos.coords;
+            getWeather ("lat=${lat}&lon=${lon}");
+        },
+        () => {
+            showError("Couldn't get Your location. Please allow location access.");
+        }
+    );
+}
+
 
 function showLoading() {
     loadingState.classList.remove('hidden');
