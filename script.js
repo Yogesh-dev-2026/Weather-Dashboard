@@ -52,7 +52,6 @@ function applytheme(theme) {
         }, 200);
 }
 
-initTheme();
 
 // -- WEATHER ICONS -----------------------
  function getWeatherIcon(iconCode) {
@@ -272,7 +271,7 @@ searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') searchCity();
 });
 
-// button click animation
+// button animation on click
 searchBtn.addEventListener('mousedown', () => {
     searchBtn.style.transform = 'scale(0.96)';
 });
@@ -285,6 +284,15 @@ searchBtn.addEventListener('click', () => {
     const city = searchInput.value.trim();
     if (city) localStorage.setItem('last-city', city);
 });
+
+// clear red border when typing
+searchInput.addEventListener('input', () => {
+    searchInput.style.borderColor = '';
+});
+
+// ─── STARTUP ─────────────────────────────────────────────
+ 
+initTheme();
 
 // load last searched city or default to London
 const lastCity = localStorage.getItem('last-city') || 'London';
