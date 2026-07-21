@@ -1,4 +1,4 @@
-const API_KEY = '28ce7311124475dcf846cc9f88d52d64';
+const API_KEY = 'e742eb3a20f40cc697d08847d3736916';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const FORECAST_URL = "https://api.openweather.org/data/2.5/forecast";
 
@@ -126,7 +126,7 @@ async function getForecast(query) {
         showforecastCards(data);
         } catch (err) {
             //forecast failing silently - not critical
-            console.log("Forecart load failed:". err.message);
+            console.log("Forecast load failed:". err.message);
         }
 }
 
@@ -208,7 +208,7 @@ function showForecast(data) {
             <ion-icon name="${icon}" class="forecast-icon"></ion-icon>
             <p class="forecast-temp">${temp}°C</p>
             <p class="forecast-desc">${desc}</p>
-        `;
+        ';
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-4px)';
             card.style.transition = 'transform 0.2s ease';
@@ -259,34 +259,7 @@ function showWeather(data) {
     // API gives wind in m/s - converting to km/h
     wind.textContent = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
     pressure.textContent = `${data.main.pressure} hPa`;
-}
-function searchCity() {
-    const city = searchInput.value.trim();
-    if (!city) return;
-    getWeather(`q=${encodeURIComponent(city)}`);
-}
 
-function searchCity() {
-    const city = searchInput.value.trim();
-    if (!city) return;
-    getWeather(`q=${encodeURIComponent(city)}`);
-}
-
-function useMyLocation() {
-    if (!navigator.geolocation) {
-        showError("Your browser doesn't support geolocation.");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        (pos) => {
-            const { latitude: lat, longitude: lon } = pos.coords;
-            getWeather(`lat=${lat}&lon=${lon}`);
-        },
-        () => {
-            showError("Couldn't get your location. Please allow location access.");
-        }
-    );
 }
 
 // event listeners
@@ -299,5 +272,20 @@ searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') searchCity();
 });
 
-// load London weather on startup
-getWeather('q=London');
+// button click animation
+searchBtn.addEventListener('mousedown', () => {
+    searchBtn.style.transform = 'scale(0.96)';
+});
+searchBtn.addEventListener('mouseup', () => {
+    searchBtn.style.transform = 'scale(1)';
+});
+
+// save last searched city
+searchBtn.addEventListener('click', () => {
+    const city = searchInput.value.trim();
+    if (city) localStorage.setItem('last-city', city);
+});
+
+// load last searched city or default to London
+const lastCity = localStorage.getItem('last-city') || 'London';
+getWeather(`q=${lastCity}`);
