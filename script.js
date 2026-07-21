@@ -123,14 +123,14 @@ async function getForecast(query) {
         const res = await fetch(`${FORECAST_URL}?${query}&units=metric&appid=${API_KEY}`);
         if (!res.ok) return;
         const data = await res.json();
-        show forecastCards(data);
+        showforecastCards(data);
         } catch (err) {
             //forecast failing silently - not critical
             console.log("Forecart load failed:". err.message);
         }
 }
 
-functiom searchCity() {
+function searchCity() {
     const city = searchInput.value.trim();
     if (!city) return;
     getWeather("q=${encodeURIComponent(city)}");
@@ -154,6 +154,71 @@ function useMyLocation() {
     );
 }
 
+// --- UI UPDATES ------------------
+
+function showWeather(data) {
+    loadingState.classList.add('hidden');
+    errorState.classList.add('hidden');
+    weatherContent.classList.remove('hidden');
+
+    // fade in effect
+    weatherContent.style.opacity = '0';
+    setTimeout(() => {
+        weatherContent.style.transition = 'opacity 0.4s ease';
+        weatherContent.style.opacity = '1';
+    }, 50);
+
+    cityName.textContent = `${data.name}, ${data.sys.country}`;
+    currentDate.textContent = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', month: 'short', day: 'numeric'
+    });
+    mainTemp.textContent = Math.round(data.main.temp);
+    weatherDesc.textContent = data.weather[0].description;
+
+    const iconCode = data.weather[0].icon;
+    weatherIcon.setAttribute('name', getWeatherIcon(iconCode));
+
+    // change background based on weather
+    document.body.style.background = getWeatherBackground(iconCode);
+    document.body.style.transition = 'background 0.6s ease';
+
+    feelsLike.textContent = `${Math.round(data.main.feels_like)}°C`;
+    humidity.textContent = `${data.main.humidity}%`;
+    // API gives wind in m/s - converting to km/h
+    wind.textContent = `${(data.wind.speed * 3.6).toFixed(1)} km/h`;
+    pressure.textContent = `${data.main.pressure} hPa`;
+}
+
+function showForecast(data) {
+    if (!forecastCards) return;
+    forecastCards.innerHTML = '';
+    // get one entry per day at midday
+    const daily = data.list.filter(item => item.dt_txt.includes('12:00:00'));
+    daily.slice(0, 5).forEach(day => {
+        const date = new Date(day.dt * 1000).toLocaleDateString('en-US', {
+            weekday: 'short', month: 'short', day: 'numeric'
+        });
+        const temp = Math.round(day.main.temp);
+        const icon = getWeatherIcon(day.weather[0].icon);
+        const desc = day.weather[0].description;
+        const card = document.createElement('div');
+        card.className = 'forecast-card';
+        card.innerHTML = `
+            <p class="forecast-date">${date}</p>
+            <ion-icon name="${icon}" class="forecast-icon"></ion-icon>
+            <p class="forecast-temp">${temp}°C</p>
+            <p class="forecast-desc">${desc}</p>
+        `;
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-4px)';
+            card.style.transition = 'transform 0.2s ease';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+        forecastCards.appendChild(card);
+    });
+}
 
 function showLoading() {
     loadingState.classList.remove('hidden');
@@ -166,8 +231,11 @@ function showError(msg) {
     weatherContent.classList.add('hidden');
     errorState.classList.remove('hidden');
     errorMessage.textContent = msg;
+    errorState.style.animation = 'none';
+    setTimeout(() => {
+        errorState.style.animation = 'shake 0.4s ease';
+    }, 10);
 }
-
 
 function showWeather(data) {
     loadingState.classList.add('hidden');
