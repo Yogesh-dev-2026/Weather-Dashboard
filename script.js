@@ -1,6 +1,6 @@
 const API_KEY = 'e742eb3a20f40cc697d08847d3736916';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-const FORECAST_URL = "https://api.openweather.org/data/2.5/forecast";
+const FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast';
 
 // grab all the elements I need
 const themeToggleBtn = document.getElementById('theme-toggle');
