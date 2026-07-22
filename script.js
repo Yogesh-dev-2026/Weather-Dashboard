@@ -37,21 +37,23 @@ function initTheme() {
 function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
-    applyTheme(next)
+    applyTheme(next);
     localStorage.setItem('weather-theme', next);
 }
 
-function applytheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        // animate icon when switching
-        themeIcon.style.transform = "rotate(360deg)";
-        themeIcon.style.transition = "transform 0.4 s ease";
-        setTimeout(() =>{
-          themeIcon.setAttribute('name', theme === 'dark' ? 'sunny-outline' : 'moon-outline');
-          themeIcon.style.transform = "rotate(0deg)";  
-        }, 200);
-}
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
 
+    // spin animation on icon when toggling
+    themeIcon.style.transition = 'transform 0.3s ease';
+    themeIcon.style.transform = 'rotate(180deg)';
+
+    setTimeout(() => {
+        // sun shows in dark mode, moon shows in light mode
+        themeIcon.setAttribute('name', theme === 'dark' ? 'sunny-outline' : 'moon-outline');
+        themeIcon.style.transform = 'rotate(0deg)';
+    }, 150);
+}
 
 // -- WEATHER ICONS -----------------------
  function getWeatherIcon(iconCode) {
@@ -191,33 +193,29 @@ function showWeather(data) {
 function showForecast(data) {
     if (!forecastCards) return;
     forecastCards.innerHTML = '';
-    // get one entry per day at midday
+
     const daily = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-    daily.slice(0, 5).forEach(day => {
+
+    daily.slice(0, 5).forEach((day, index) => {
         const date = new Date(day.dt * 1000).toLocaleDateString('en-US', {
             weekday: 'short', month: 'short', day: 'numeric'
         });
         const temp = Math.round(day.main.temp);
         const icon = getWeatherIcon(day.weather[0].icon);
         const desc = day.weather[0].description;
+
         const card = document.createElement('div');
         card.className = 'forecast-card';
+        card.style.animation = `fadeIn 0.3s ease ${index * 0.08}s both`;
         card.innerHTML = `
             <p class="forecast-date">${date}</p>
             <ion-icon name="${icon}" class="forecast-icon"></ion-icon>
             <p class="forecast-temp">${temp}°C</p>
             <p class="forecast-desc">${desc}</p>
-        ';
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-4px)';
-            card.style.transition = 'transform 0.2s ease';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-        });
+        `;
         forecastCards.appendChild(card);
     });
-}
+} 
 
 function showLoading() {
     loadingState.classList.remove('hidden');
@@ -261,17 +259,16 @@ function showWeather(data) {
 
 }
 
-// event listeners
+// ─── EVENT LISTENERS ─────────────────────────────────────
+
 themeToggleBtn.addEventListener('click', toggleTheme);
 searchBtn.addEventListener('click', searchCity);
 geoBtn.addEventListener('click', useMyLocation);
 
-// press Enter to search
 searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') searchCity();
 });
 
-// button animation on click
 searchBtn.addEventListener('mousedown', () => {
     searchBtn.style.transform = 'scale(0.96)';
 });
@@ -279,21 +276,18 @@ searchBtn.addEventListener('mouseup', () => {
     searchBtn.style.transform = 'scale(1)';
 });
 
-// save last searched city
 searchBtn.addEventListener('click', () => {
     const city = searchInput.value.trim();
     if (city) localStorage.setItem('last-city', city);
 });
 
-// clear red border when typing
 searchInput.addEventListener('input', () => {
     searchInput.style.borderColor = '';
 });
 
 // ─── STARTUP ─────────────────────────────────────────────
- 
+
 initTheme();
 
-// load last searched city or default to London
 const lastCity = localStorage.getItem('last-city') || 'London';
 getWeather(`q=${lastCity}`);
